@@ -1,5 +1,5 @@
 library('hamcrest')
-library('se.alipsa:rmd2html')
+library('se.alipsa:mdr2html')
 
 test.simpleOneLine <- function() {
   html <- parseMdr("This is *Sparta*")
