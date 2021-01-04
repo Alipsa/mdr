@@ -3,7 +3,8 @@
 # see http://docs.renjin.org/en/latest/writing-renjin-extensions.html for details about the syntax
 
 import("se.alipsa:htmlcreator")
-importClass(se.alipsa.rmd2html.Md2Html)
+import("se.alipsa:r2md")
 
-export(parseLines)
+export(parseMdr)
+importClass(se.alipsa.r2md.Md2Html)
 

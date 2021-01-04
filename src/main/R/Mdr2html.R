@@ -1,37 +1,55 @@
 library("se.alipsa:htmlcreator")
+library("se.alipsa:r2md")
 
 # remember to add export(function name) to NAMESPACE to make them available
-
+parseMdr <- function(text=NA, file=NA) {
+  if (!is.na(text)) {
+    if (is.list(text)) {
+      parseLines(text)
+    } else {
+      parseLines(list(text))
+    }
+  } else if (!is.na(file)) {
+    if (file.exists(file)) {
+      parseLines(readLines(file))
+    } else {
+      stop("File does not exist!")
+    }
+  } else {
+    stop(paste("Unknown argument: should be either text (a string) or file"))
+  }
+}
 # lines is a list of character vectors
 parseLines <- function(lines) {
   rCodeBlock <- FALSE
   rCode <- ""
   md2Html <- Md2Html$new()
   html.clear()
-  print(paste("Processing", length(lines), "lines..."))
+  #print(paste("Processing", length(lines), "lines..."))
   for(lineNum in 1:length(lines)) {
     element <- lines[[lineNum]]
     #print(paste("element =", class(element), " is list =", is.list(element)))
     lineList <- strsplit(element, "(\r\n|\r|\n)")[[1]]
-    print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
+    #print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
     for (lineIdx in 1:length(lineList)) {
       line <- lineList[[lineIdx]]
-      print(paste0(" Parsing '", line, "'"))
+      #print(paste0("  ", lineIdx, ". Parsing '", line, "'"))
 
       if(grepl("```{r", line, fixed = TRUE)) {
-        print("  Code block beginning")
+        #print("  Code block beginning")
         rCodeBlock <- TRUE
       }
 
       if (rCodeBlock) {
         passedCodeBlockStart <- !grepl("```{r", line, fixed = TRUE)
         if (passedCodeBlockStart && grepl("```", line, fixed = TRUE)) {
-          print("  Code block ending")
+          #print("  Code block ending")
           rCodeBlock <- FALSE
-          print(paste("executing code:", rCode))
+          #print(paste("executing code:", rCode))
           result <- eval(parse(text=rCode))
-          print(paste("result is ", result))
-          html.add(paste(result, collapse = '\n'))
+          htm <- md.renderHtml(result)
+          #print(paste("result is ", result))
+          html.add(paste(htm, collapse = '\n'))
           rCode <- ""
         } else if (passedCodeBlockStart){
           rCode <- paste(rCode, line, sep="\n")
@@ -39,7 +57,7 @@ parseLines <- function(lines) {
       } else {
         if (grepl("`r", line, fixed = TRUE)) {
           #print("  inline code detected")
-          rSectionStartMatches <- gregexpr('`r', line)[[1]]
+          rSectionStartMatches <- gregexpr('`r ', line)[[1]]
           knitLine <- ""
           startPos <- 1
           numChar <- nchar(line)
@@ -63,8 +81,14 @@ parseLines <- function(lines) {
             knitLine <- paste0(knitLine, substr(line, startPos, numChar))
           }
           html.add(md2Html$render(knitLine))
+        } else if (grepl("$$", line, fixed = TRUE)) {
+          # LaTex
+          # TODO: seems that Snuggletex is an option: https://www2.ph.ed.ac.uk/snuggletex/documentation/overview-and-features.html
+          #   https://mvnrepository.com/artifact/uk.ac.ed.ph.snuggletex/snuggletex-core/1.2.2
+          warning("LaTeX expressions are not yet supported")
+          html.add(md2Html$render(line))
         } else {
-          print("  Render plain markdown text")
+          #print("  Render plain markdown text")
           html.add(md2Html$render(line))
         }
       }

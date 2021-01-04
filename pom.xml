@@ -6,13 +6,36 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>se.alipsa</groupId>
-  <artifactId>rmd2html</artifactId>
+  <artifactId>mdr2html</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- general information about your package -->
-  <name>rmd2html</name>
-  <description>TODO: write a short description here</description>
+  <name>mdr2html</name>
+  <description>This is a Renjin extension (package) that converts mdr files (markdown with support for R code) into html.
+  It is similar to rmd files with the difference that there is no knitting. The R syntax snippets should return markdown code,
+    i.e. no "magic" conversions. This gives you better control of the output. The mdr file is converted to a html file.
+  </description>
+  <url>https://github.com/perNyfelt/mdr2html</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://raw.githubusercontent.com/perNyfelt/mdr2html/main/LICENSE</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Per Nyfelt</name>
+      <email>per.nyfelt@alipsa.se</email>
+      <organization>Alipsa HB</organization>
+      <organizationUrl>http://www.alipsa.se</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/perNyfelt/mdr2html.git</connection>
+    <developerConnection>scm:git:git@github.com:perNyfelt/mdr2html.git</developerConnection>
+    <url>https://github.com/perNyfelt/mdr2html/tree/main</url>
+  </scm>
 
   <properties>
     <renjin.version>3.5-beta76</renjin.version>
@@ -44,14 +67,14 @@
     </dependency>
 
     <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark</artifactId>
-      <version>0.16.1</version>
+      <groupId>se.alipsa</groupId>
+      <artifactId>r2md</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>se.alipsa</groupId>
       <artifactId>htmlcreator</artifactId>
-      <version>1.2</version>
+      <version>1.3-SNAPSHOT</version>
     </dependency>
 
     <!-- the hamcrest package is only required if you use it for unit tests -->
@@ -206,11 +229,50 @@
       </plugin>
     </plugins>
   </build>
-  <!-- TODO: uncomment this and add the real url if you have a repository to deploy to -->
-  <!--distributionManagement>
+
+  <distributionManagement>
     <snapshotRepository>
-      <id>nexus-snapshots</id>
-      <url>http://some.server:8081/nexus/content/repositories/snapshots/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-  </distributionManagement-->
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
