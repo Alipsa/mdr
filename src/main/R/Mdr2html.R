@@ -1,16 +1,17 @@
 library("se.alipsa:htmlcreator")
 library("se.alipsa:r2md")
 
-# remember to add export(function name) to NAMESPACE to make them available
-parseMdr <- function(text=NA, file=NA) {
-  if (!is.na(text)) {
+parseMdr <- function(text=NULL, file=NULL) {
+  #print(paste("parseMdr, text =", text, ", file =", file))
+  if (!is.null(text)) {
     if (is.list(text)) {
       parseLines(text)
     } else {
       parseLines(list(text))
     }
-  } else if (!is.na(file)) {
+  } else if (!is.null(file)) {
     if (file.exists(file)) {
+      #print(paste("parsing", file))
       parseLines(readLines(file))
     } else {
       stop("File does not exist!")
@@ -19,18 +20,24 @@ parseMdr <- function(text=NA, file=NA) {
     stop(paste("Unknown argument: should be either text (a string) or file"))
   }
 }
-# lines is a list of character vectors
+#' @param lines is a list of character vectors
+#' @returns the equivalent html of the mdr content
 parseLines <- function(lines) {
   rCodeBlock <- FALSE
   rCode <- ""
   md2Html <- Md2Html$new()
   html.clear()
-  #print(paste("Processing", length(lines), "lines..."))
+  md.clear()
+  print(paste("Processing", length(lines), "lines..."))
   for(lineNum in 1:length(lines)) {
+    print(paste("Line number", lineNum))
     element <- lines[[lineNum]]
     #print(paste("element =", class(element), " is list =", is.list(element)))
     lineList <- strsplit(element, "(\r\n|\r|\n)")[[1]]
-    #print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
+    print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
+    if (length(lineList) == 0) {
+      next
+    }
     for (lineIdx in 1:length(lineList)) {
       line <- lineList[[lineIdx]]
       #print(paste0("  ", lineIdx, ". Parsing '", line, "'"))
@@ -46,7 +53,10 @@ parseLines <- function(lines) {
           #print("  Code block ending")
           rCodeBlock <- FALSE
           #print(paste("executing code:", rCode))
-          result <- eval(parse(text=rCode))
+          result <- as.character(eval(parse(text=rCode)))
+          #if (is(result, "Markdown")) {
+          #  result <- result$getContent()
+          #}
           htm <- md.renderHtml(result)
           #print(paste("result is ", result))
           html.add(paste(htm, collapse = '\n'))
@@ -70,7 +80,7 @@ parseLines <- function(lines) {
             code <- substr(rest, 1, endPos - 1)
             #print(paste0("    Code is '", code, "'"))
             result <- eval(parse(text=code))
-            #print(paste("    Result is", result))
+            # print(paste("    Result is", result))
             #print(paste0("    knitLine before concat is '", knitLine, "'"))
             knitLine <- paste0(knitLine, mdSection, result)
             #print(paste("    final knitLine =", knitLine))

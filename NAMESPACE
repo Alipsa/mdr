@@ -4,7 +4,8 @@
 
 import("se.alipsa:htmlcreator")
 import("se.alipsa:r2md")
+importClass(se.alipsa.r2md.Md2Html)
 
 export(parseMdr)
-importClass(se.alipsa.r2md.Md2Html)
+
 

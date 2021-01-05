@@ -81,3 +81,32 @@ test.inline.mixed <- function() {
   html <- parseMdr(rmd)
   assertThat(html, equalTo("<p>3</p>\n<p>For a circle with the radius 3,</p>\n<p>its area is 28.27433388230814.</p>\n"))
 }
+
+test.barplot <- function() {
+  mdr <- "
+  # Barplot
+  ```{r}
+  md.add(
+    barplot,
+    table(mtcars$gear),
+    main='Car Distribution',
+    horiz=TRUE,
+    names.arg=c('3 Gears', '4 Gears', '5 Gears'),
+    col=c('darkblue','red', 'green')
+  )
+  ```
+  "
+  html <- parseMdr(mdr)
+  #print(html)
+  # TODO: some assertions would be nice
+}
+
+test.longerfile <- function() {
+  mdrFile <- paste0(getwd(), "/research.mdr")
+  stopifnot(file.exists(mdrFile))
+
+  html <- parseMdr(file = mdrFile)
+  #print(html)
+  # TODO: some assertions would be nice
+}
+
