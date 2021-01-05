@@ -28,13 +28,13 @@ parseLines <- function(lines) {
   md2Html <- Md2Html$new()
   html.clear()
   md.clear()
-  print(paste("Processing", length(lines), "lines..."))
+  #print(paste("Processing", length(lines), "lines..."))
   for(lineNum in 1:length(lines)) {
-    print(paste("Line number", lineNum))
+    #print(paste("Line number", lineNum))
     element <- lines[[lineNum]]
     #print(paste("element =", class(element), " is list =", is.list(element)))
     lineList <- strsplit(element, "(\r\n|\r|\n)")[[1]]
-    print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
+    #print(paste0("  ", lineNum, ". line split into ", length(lineList), " elements"))
     if (length(lineList) == 0) {
       next
     }
