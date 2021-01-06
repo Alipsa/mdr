@@ -110,3 +110,66 @@ test.longerfile <- function() {
   # TODO: some assertions would be nice
 }
 
+test.echo <- function() {
+  rmd <- "
+# Summary
+```{r echo=TRUE}
+md.add(summary(mtcars$qsec))
+
+# Return the markdown
+md.content()
+```
+  "
+  html <- parseMdr(rmd)
+  assertThat(html, equalTo(
+    "<h1>Summary</h1>
+<pre><code>```{r echo=TRUE}
+md.add(summary(mtcars$qsec))
+
+# Return the markdown
+md.content()
+```</code></pre><table>
+<thead>
+<tr><th>Var1</th><th>Freq</th></tr>
+</thead>
+<tbody>
+<tr><td>Min.</td><td>14.5</td></tr>
+<tr><td>1st Qu.</td><td>16.892</td></tr>
+<tr><td>Median</td><td>17.71</td></tr>
+<tr><td>Mean</td><td>17.849</td></tr>
+<tr><td>3rd Qu.</td><td>18.9</td></tr>
+<tr><td>Max.</td><td>22.9</td></tr>
+</tbody>
+</table>
+"))
+}
+
+test.eval <- function() {
+  rmd <- "
+# Summary
+```{r eval=FALSE}
+md.add(summary(mtcars$qsec))
+
+# Return the markdown
+md.content()
+```
+  "
+  html <- parseMdr(rmd)
+  assertThat(html, equalTo("<h1>Summary</h1>\n"))
+}
+
+test.include <- function() {
+  rmd <- "
+# Summary
+```{r include=FALSE}
+md.add(summary(mtcars$qsec))
+qsecMean <- mean(mtcars$qsec)
+# Return the markdown
+md.content()
+```
+Not included but evaluated, mean(mtcars$qsec) = `r qsecMean`
+  "
+  html <- parseMdr(rmd)
+  assertThat(html, equalTo("<h1>Summary</h1>\n<p>Not included but evaluated, mean(mtcars$qsec) = 17.84875</p>\n"))
+}
+

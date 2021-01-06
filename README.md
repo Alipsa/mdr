@@ -41,3 +41,50 @@ How about that?
 <p>How about that?</p>
 ```
 (Note: indentation above added to clarity, the actual result does not indent the html code)
+
+
+The following code block options are supported:
+
+- **echo**: Output the code before the result is outputted, defaults to FALSE 
+- **eval**: Whether to run the code or not, defaults to TRUE
+- **include**: Whether the results of the evaluation should be outputted or not, defaults to TRUE
+
+Example:
+````
+# Summary
+```{r echo=TRUE}
+md.add(summary(mtcars$qsec))
+
+# Return the markdown
+md.content()
+```
+````
+This results in
+````html
+<h1>Summary</h1>
+<pre><code>
+   ```{r echo=TRUE}
+   md.add(summary(mtcars$qsec))
+   
+   # Return the markdown
+   md.content()
+```
+</code></pre>
+<table>
+<thead>
+<tr><th>Var1</th><th>Freq</th></tr>
+</thead>
+<tbody>
+<tr><td>Min.</td><td>14.5</td></tr>
+<tr><td>1st Qu.</td><td>16.892</td></tr>
+<tr><td>Median</td><td>17.71</td></tr>
+<tr><td>Mean</td><td>17.849</td></tr>
+<tr><td>3rd Qu.</td><td>18.9</td></tr>
+<tr><td>Max.</td><td>22.9</td></tr>
+</tbody>
+</table>
+````
+
+For multiple option, just separate them with comma, e.g:
+
+\`\`\`{r echo=TRUE, include=FALSE}

@@ -1,6 +1,15 @@
 library("se.alipsa:htmlcreator")
 library("se.alipsa:r2md")
 
+codeblockArgs <- function(...) {
+  args <- list(...)
+  args
+}
+
+toBoolean <- function(arg, defaultVal = FALSE) {
+  if (is.null(arg)) defaultVal else arg
+}
+
 parseMdr <- function(text=NULL, file=NULL) {
   #print(paste("parseMdr, text =", text, ", file =", file))
   if (!is.null(text)) {
@@ -45,6 +54,15 @@ parseLines <- function(lines) {
       if(grepl("```{r", line, fixed = TRUE)) {
         #print("  Code block beginning")
         rCodeBlock <- TRUE
+        rCodeBlockLine <- line
+        opt <- ""
+        if (grepl("=", rCodeBlockLine, fixed = TRUE)) {
+          optionsStart <- gregexpr('r ', rCodeBlockLine)[[1]] +1
+          optionEnd <- gregexpr('}', rCodeBlockLine)[[1]] -1
+
+          opt <- substr(rCodeBlockLine, optionsStart, optionEnd)
+        }
+        codeBlockOptions <- eval(parse(text = paste("codeblockArgs(", opt, ")")))
       }
 
       if (rCodeBlock) {
@@ -53,13 +71,32 @@ parseLines <- function(lines) {
           #print("  Code block ending")
           rCodeBlock <- FALSE
           #print(paste("executing code:", rCode))
-          result <- as.character(eval(parse(text=rCode)))
-          #if (is(result, "Markdown")) {
-          #  result <- result$getContent()
-          #}
-          htm <- md.renderHtml(result)
-          #print(paste("result is ", result))
-          html.add(paste(htm, collapse = '\n'))
+          if (toBoolean(codeBlockOptions$echo)) {
+            if (!endsWith(rCodeBlockLine, "\n") && ! startsWith(rCode, "\n")) {
+              startLine <- paste0(rCodeBlockLine, "\n")
+            } else {
+              startLine <- rCodeBlockLine
+            }
+            #print(paste("rCodeBlockLine =", rCodeBlockLine))
+            #print(paste("startLine =", startLine))
+            #print(paste("rCode =", rCode))
+            if (endsWith(rCode, "\n")) {
+              endLine <- "```</code></pre>"
+            } else {
+              endLine <- "\n```</code></pre>"
+            }
+            html.add(paste0("<pre><code>", startLine, rCode, endLine))
+            #html.add(md.renderHtml(paste0(rCodeBlockLine, "\n", rCode, "```\n")))
+            #html.add(md.renderHtml(paste0("```r\n", rCode, "```\n")))
+          }
+          if (toBoolean(codeBlockOptions$eval, TRUE)) {
+            result <- as.character(eval(parse(text=rCode)))
+            if (toBoolean(codeBlockOptions$include, TRUE)) {
+              htm <- md.renderHtml(result)
+              #print(paste("result is ", result))
+              html.add(paste(htm, collapse = '\n'))
+            }
+          }
           rCode <- ""
         } else if (passedCodeBlockStart){
           rCode <- paste(rCode, line, sep="\n")
