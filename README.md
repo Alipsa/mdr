@@ -63,11 +63,11 @@ This results in
 ````html
 <h1>Summary</h1>
 <pre><code>
-   ```{r echo=TRUE}
-   md.add(summary(mtcars$qsec))
-   
-   # Return the markdown
-   md.content()
+```{r echo=TRUE}
+md.add(summary(mtcars$qsec))
+
+# Return the markdown
+md.content()
 ```
 </code></pre>
 <table>
