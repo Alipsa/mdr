@@ -11,6 +11,8 @@ this becomes quite a pleasant experience giving you lots of control and power.
 The mdr2html package is essentially a package (Renjin extension) that processes mdr text or files and produces html. 
 This is used in the [Munin](https://github.com/perNyfelt/munin) reports server to support mdr files as one of its supported report formats.
 
+Use `parseMdr` to parse a mdr character vector (string), a mdr file, or a list of mdr lines.
+
 ## Example
 
 ````
@@ -42,7 +44,28 @@ How about that?
 ```
 (Note: indentation above added to clarity, the actual result does not indent the html code)
 
+You can do whatever you like in the R code block but whatever is returned from the block (the last expression) is 
+assumed to be the markdown to render into html. So if you do:
+````
+# Summary
+```{r}
+md.clear()
+md.add(mtcars, attr=list(class="table")
+md.content()
+"How about that?"
+```
+````
 
+...none of the markdown code for mtcars will be run, the Markdown content that *will* be added is `"How about that?"`.
+However, the code is still executed and since the session for subsequent code blocks is the same, md.content() will
+still contain the mtcars data.frame (unless you do md.clear() or md.new() in you next codeblock - then it will be truly lost).
+
+So to summarise the key [r2md](https://github.com/perNyfelt/r2md) methods:
+- md.new(): begin a new markdown text
+- md.add(): append to the existing markdown text or start a new one if there was none before
+- md.clear(): removes the content of an existing markdown text or creates a new one if none existed before
+
+## Configuration
 The following code block options are supported:
 
 - **echo**: Output the code before the result is outputted, defaults to FALSE 
@@ -55,7 +78,7 @@ Example:
 ```{r echo=TRUE}
 md.add(summary(mtcars$qsec))
 
-# Return the markdown
+# Return the markdown, technically md.add() and md.new() does that as well so we could have skipped the next line
 md.content()
 ```
 ````
@@ -66,7 +89,7 @@ This results in
 ```{r echo=TRUE}
 md.add(summary(mtcars$qsec))
 
-# Return the markdown
+# Return the markdown, technically md.add() and md.new() does that as well so we could have skipped the next line
 md.content()
 ```
 </code></pre>
