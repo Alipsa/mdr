@@ -18,8 +18,8 @@ md.add(df)
 ```{r}
 md.new()$add(paste("As stated before, 2 + 5 * pi =", x))
 ```
-Plots are supported, here is an example of a barplot:
-```{r}
+Plots are supported, here is an example of a barplot (echo=TRUE also outputs the R code):
+```{r echo=TRUE}
 md.new()
 md.add("# Barplot")
 

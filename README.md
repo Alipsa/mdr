@@ -92,4 +92,6 @@ For multiple option, just separate them with comma, e.g:
 Note that if you set eval to FALSE, the 'include' parameter is ignored. 
 Setting include to TRUE makes no sense and will just be ignored as it has no meaning.
 
+[Here is an example](https://github.com/perNyfelt/mdr2html/blob/main/src/test/resources/research.mdr) of a mdr report.
+
 See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2htmlTest.R) for more usage details.
