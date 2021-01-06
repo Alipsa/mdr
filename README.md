@@ -4,7 +4,7 @@ Render mdr files as html
 The *mdr* file format is somewhat
 similar to *rmd* (r markdown) in the sense that it enables enhancing markdown with r code to support
 [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research_method); but
-where rmd relies on knitr and "magic rules" for what and how to render r code, mdr puts the responsibility
+where rmd relies on knitr and "magic rules" for what and especially how to render r code, mdr puts the responsibility
 to generate markdown text from r code on you - and using the [r2md](https://github.com/perNyfelt/r2md) package
 this becomes quite a pleasant experience giving you lots of control and power.
 
@@ -88,3 +88,8 @@ md.content()
 For multiple option, just separate them with comma, e.g:
 
 \`\`\`{r echo=TRUE, include=FALSE}
+
+Note that if you set eval to FALSE, the 'include' parameter is ignored. 
+Setting include to TRUE makes no sense and will just be ignored as it has no meaning.
+
+See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2htmlTest.R) for more usage details.
