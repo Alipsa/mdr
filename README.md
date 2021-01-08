@@ -129,7 +129,7 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-## Ver 1.1-SNAPSHOT
+### Ver 1.1-SNAPSHOT
 
-## Ver 1.0, 2021-Jan-08
+### Ver 1.0, 2021-Jan-08
 - Initial release
