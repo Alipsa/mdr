@@ -12,16 +12,15 @@ salary <- c(21000, 23400, 26800)
 startdate <- as.Date(c('2013-11-1','2018-3-25','2017-3-14'))
 endDate <- as.POSIXct(c('2020-01-10 00:00:00', '2020-04-12 12:10:13', '2020-10-06 10:00:05'), tz='UTC' )
 df <- data.frame(employee, salary, startdate, endDate)
-md.new(df, attr=list(class="table")
+md.new(df, attr=list(class="table"))
 ```
 # We can also reference previous code in the document e.g:
 ```{r}
-md.new()$add(paste("As stated before, 2 + 5 * pi =", x))
+md.new(paste("As stated before, 2 + 5 * pi =", x))
 ```
 Plots are supported, here is an example of a barplot (echo=TRUE also outputs the R code):
 ```{r echo=TRUE}
-md.new()
-md.add("# Barplot")
+md.new("# Barplot")
 
 md.add(
   barplot,
