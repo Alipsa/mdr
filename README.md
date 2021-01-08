@@ -12,6 +12,15 @@ This is used in the [Munin](https://github.com/perNyfelt/munin) reports server t
 
 Use the method `parseMdr` to parse a mdr character vector (string), a mdr file, or a list of mdr lines.
 
+To use it, add the following dependency to your pom.xml
+```xml
+<dependency>
+    <groupId>se.alipsa</groupId>
+    <artifactId>mdr2html</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
 ## Example
 Given a mdr document with the following content:
 
@@ -117,3 +126,10 @@ Setting include to TRUE makes no sense and will just be ignored as it has no mea
 [Here is an example](https://github.com/perNyfelt/mdr2html/blob/main/src/test/resources/research.mdr) of a mdr report.
 
 See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2htmlTest.R) for more usage details.
+
+# Version History
+
+## Ver 1.1-SNAPSHOT
+
+## Ver 1.0, 2021-Jan-08
+- Initial release
