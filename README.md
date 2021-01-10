@@ -10,14 +10,17 @@ this becomes quite a pleasant experience giving you lots of control and power.
 The mdr2html package is essentially a package (Renjin extension) that processes mdr text or files and produces html. 
 This is used in the [Munin](https://github.com/perNyfelt/munin) reports server to support mdr files as one of its supported report formats.
 
-Use the method `parseMdr` to parse a mdr character vector (string), a mdr file, or a list of mdr lines.
+Use the method `parseMdr()` to parse a mdr character vector (string), a mdr file, or a list of mdr lines into a r2md::Markdown object.
+Typically, you will use the `renderMdr()` to parse and render the mdr content into html (or markdown by adding the outputType parameter, e.g. `renderMdr(mdrFile, outputType="markdown"`).
+
+
 
 To use it, add the following dependency to your pom.xml
 ```xml
 <dependency>
     <groupId>se.alipsa</groupId>
     <artifactId>mdr2html</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
 
@@ -32,7 +35,7 @@ md.content()
 ```
 How about that?
 ````
-...the code: `html <- parseMdr(rmd)` will make the html variable contain the following html:
+...the code: `html <- renderMdr(rmd)` will make the html variable contain the following html:
 ```html
 <h1>Summary</h1>
 <table>
@@ -128,6 +131,9 @@ Setting include to TRUE makes no sense and will just be ignored as it has no mea
 See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2htmlTest.R) for more usage details.
 
 # Version History
+
+### Ver 1.2-SNAPSHOT
+(nothing yet)
 
 ### Ver 1.1
 Remove direct rendering to html with html.add and change to render into markdown and then to html.
