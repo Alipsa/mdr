@@ -130,6 +130,8 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 # Version History
 
 ### Ver 1.1-SNAPSHOT
+Remove direct rendering to html with html.add and change to render into markdown and then to html.
+parseMdr now returns a r2md::Markdown object, use renderMdr to get either html (default) or markdown content.
 
 ### Ver 1.0, 2021-Jan-08
 - Initial release

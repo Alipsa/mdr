@@ -2,40 +2,40 @@ library('hamcrest')
 library('se.alipsa:mdr2html')
 
 test.simpleOneLine <- function() {
-  html <- parseMdr("This is *Sparta*")
+  html <- renderMdr("This is *Sparta*")
   assertThat(html, equalTo("<p>This is <em>Sparta</em></p>\n"))
 }
 
 test.simpleTwoLines <- function() {
-  html <- parseMdr(list("# The title", "- The first bullet"))
+  html <- renderMdr(list("# The title", "- The first bullet"))
   assertThat(html, equalTo("<h1>The title</h1>\n<ul>\n<li>The first bullet</li>\n</ul>\n"))
 }
 
 test.inline.simple <- function() {
   rmd <- "2 + 5 = `r 2 + 5`."
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<p>2 + 5 = 7.</p>\n"))
 }
 
 test.inline.complex <- function() {
 
   rmd <- "5 = `r 5 * 1`"
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<p>5 = 5</p>\n"))
 
   rmd <- "2 + 5 = `r 2 + 5`, whereas 2 * 5 = `r 2 * 5`."
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<p>2 + 5 = 7, whereas 2 * 5 = 10.</p>\n"))
 
   rmd <- "x = 22 + 500 = `r x <- 22 + 500 `, and 2 * x = `r 2 * x `, while x/2 = `r x/2`"
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<p>x = 22 + 500 = 522, and 2 * x = 1044, while x/2 = 261</p>\n"))
 
 }
 
 test.latex <- function() {
   rmd <- "$$f(k) = {n \\choose k} p^{k} (1-p)^{n-k}$$"
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   print(html)
   print("TODO: detect LaTeX and convert to html or svg")
 }
@@ -44,13 +44,13 @@ test.codeBlock <- function() {
   rmd <- "
 # Summary
 ```{r}
-md.add(summary(mtcars$qsec))
+md.new(summary(mtcars$qsec))
 md.content()
 ```
 How about that?
   "
-  html <- parseMdr(rmd)
-  #cat(html, file=paste0(getwd(),"/codeBlock.html"))
+  html <- renderMdr(rmd)
+  cat(html, file=paste0(getwd(),"/codeBlock.html"))
   assertThat(html, equalTo(
 "<h1>Summary</h1>
 <table>
@@ -78,8 +78,8 @@ test.inline.mixed <- function() {
   For a circle with the radius `r x`,
   its area is `r pi * x^2`.
 "
-  html <- parseMdr(rmd)
-  assertThat(html, equalTo("<p>3</p>\n<p>For a circle with the radius 3,</p>\n<p>its area is 28.27433388230814.</p>\n"))
+  html <- renderMdr(rmd)
+  assertThat(html, equalTo("<p>3</p>\n<p>For a circle with the radius 3,<br />\nits area is 28.27433388230814.</p>\n"))
 }
 
 test.barplot <- function() {
@@ -96,7 +96,7 @@ test.barplot <- function() {
   )
   ```
   "
-  html <- parseMdr(mdr)
+  html <- renderMdr(mdr)
   #print(html)
   # TODO: some assertions would be nice
 }
@@ -105,7 +105,7 @@ test.longerfile <- function() {
   mdrFile <- paste0(getwd(), "/research.mdr")
   stopifnot(file.exists(mdrFile))
 
-  html <- parseMdr(file = mdrFile)
+  html <- renderMdr(file = mdrFile)
   #print(html)
   # TODO: some assertions would be nice
 }
@@ -114,21 +114,22 @@ test.echo <- function() {
   rmd <- "
 # Summary
 ```{r echo=TRUE}
-md.add(summary(mtcars$qsec))
+md.new(summary(mtcars$qsec))
 
 # Return the markdown
 md.content()
 ```
   "
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
+  cat(html, file=paste0(getwd(),"/test.echo.html"))
   assertThat(html, equalTo(
     "<h1>Summary</h1>
-<pre><code>```{r echo=TRUE}
-md.add(summary(mtcars$qsec))
+<pre><code class=\"language-r\">md.new(summary(mtcars$qsec))
 
 # Return the markdown
 md.content()
-```</code></pre><table>
+</code></pre>
+<table>
 <thead>
 <tr><th>Var1</th><th>Freq</th></tr>
 </thead>
@@ -154,7 +155,7 @@ md.add(summary(mtcars$qsec))
 md.content()
 ```
   "
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<h1>Summary</h1>\n"))
 }
 
@@ -169,7 +170,27 @@ md.content()
 ```
 Not included but evaluated, mean(mtcars$qsec) = `r qsecMean`
   "
-  html <- parseMdr(rmd)
+  html <- renderMdr(rmd)
   assertThat(html, equalTo("<h1>Summary</h1>\n<p>Not included but evaluated, mean(mtcars$qsec) = 17.84875</p>\n"))
+}
+
+test.withquoteblock <- function() {
+  rmd <- "
+# Summary
+```{r include=FALSE}
+md.add(summary(mtcars$qsec))
+qsecMean <- mean(mtcars$qsec)
+# Return the markdown
+md.content()
+```
+```r
+# Here is the key code:
+qsecMean <- mean(mtcars$qsec)
+```
+Not included but evaluated, mean(mtcars$qsec) = `r qsecMean`
+  "
+  html <- renderMdr(rmd)
+  cat(html, file=paste0(getwd(),"/test.withquoteblock.html"))
+  assertThat(html, equalTo("<h1>Summary</h1>\n<pre><code class=\"language-r\"># Here is the key code:\nqsecMean &lt;- mean(mtcars$qsec)\n</code></pre>\n<p>Not included but evaluated, mean(mtcars$qsec) = 17.84875</p>\n"))
 }
 
