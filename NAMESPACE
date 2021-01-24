@@ -2,7 +2,6 @@
 # which functions the package exposes (i.e. exports) to other packages
 # see http://docs.renjin.org/en/latest/writing-renjin-extensions.html for details about the syntax
 
-import("se.alipsa:htmlcreator")
 import("se.alipsa:r2md")
 importClass(se.alipsa.r2md.Md2Html)
 

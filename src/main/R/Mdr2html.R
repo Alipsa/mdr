@@ -1,4 +1,3 @@
-library("se.alipsa:htmlcreator")
 library("se.alipsa:r2md")
 
 codeblockArgs <- function(...) {

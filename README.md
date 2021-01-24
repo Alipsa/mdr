@@ -20,7 +20,7 @@ To use it, add the following dependency to your pom.xml
 <dependency>
     <groupId>se.alipsa</groupId>
     <artifactId>mdr2html</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
@@ -133,7 +133,7 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 # Version History
 
 ### Ver 1.2-SNAPSHOT
-(nothing yet)
+- Remove dependency on htmlcreator
 
 ### Ver 1.1
 Remove direct rendering to html with html.add and change to render into markdown and then to html.
