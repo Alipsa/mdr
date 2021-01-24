@@ -134,6 +134,8 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 ### Ver 1.2-SNAPSHOT
 - Remove dependency on htmlcreator
+- Add versions plugin with rules excluding beta versions
+- Add maven enforcer plugin to require minimum maven version
 
 ### Ver 1.1
 Remove direct rendering to html with html.add and change to render into markdown and then to html.
