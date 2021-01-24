@@ -132,7 +132,10 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-### Ver 1.2-SNAPSHOT
+### Ver 1.3-SNAPSHOT
+(Nothing yet)
+
+### Ver 1.2
 - Remove dependency on htmlcreator
 - Add versions plugin with rules excluding beta versions
 - Add maven enforcer plugin to require minimum maven version
