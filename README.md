@@ -132,6 +132,9 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
+### Ver 1.4-SNAPSHOT
+(nothng yet)
+
 ### Ver 1.3
 - add highlightJs code formatting
 
