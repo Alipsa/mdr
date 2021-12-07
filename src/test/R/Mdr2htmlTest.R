@@ -1,6 +1,25 @@
 library('hamcrest')
 library('se.alipsa:mdr2html')
 
+
+str.beginsWith <- function(expected) {
+  if(is.na(expected)) {
+    stop("expected is NA, str.beginsWith NA makes no sense")
+  }
+  function(actual) {
+    startsWith(as.character(actual), as.character(expected))
+  }
+}
+
+str.endsWith <- function(expected) {
+  if(is.na(expected)) {
+    stop("expected is NA, str.endsWith NA makes no sense")
+  }
+  function(actual) {
+    endsWith(as.character(actual), as.character(expected))
+  }
+}
+
 test.simpleOneLine <- function() {
   html <- renderMdr("This is *Sparta*")
   assertThat(html, equalTo("<p>This is <em>Sparta</em></p>\n"))
@@ -98,7 +117,20 @@ test.barplot <- function() {
   "
   html <- renderMdr(mdr)
   #print(html)
-  # TODO: some assertions would be nice
+  assertThat(html, str.beginsWith("<h1>Barplot</h1>\n<p><img src=\"data:image/png;base64,"))
+  assertThat(html, str.endsWith("/></p>\n"))
+
+  mdr <- "
+  # Plot
+  ```{r}
+  md.addPlot({
+    plot(mtcars$mpg ~ mtcars$hp)
+    abline(h = mean(mtcars$mpg))
+  })
+  ```"
+  html <- renderMdr(mdr)
+  assertThat(html, str.beginsWith("<h1>Plot</h1>\n<p><img src=\"data:image/png;base64,"))
+  assertThat(html, str.endsWith("/></p>\n"))
 }
 
 test.longerfile <- function() {

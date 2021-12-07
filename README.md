@@ -74,6 +74,7 @@ still contain the mtcars data.frame (unless you do md.clear() or md.new() in you
 So to summarise the key [r2md](https://github.com/perNyfelt/r2md) methods:
 - md.new(): begin a new markdown text
 - md.add(): append to the existing markdown text or start a new one if there was none before
+- md.addPlot(): append a series of plot commands 
 - md.clear(): removes the content of an existing markdown text or creates a new one if none existed before
 
 ## Configuration
@@ -133,17 +134,17 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 # Version History
 
 ### Ver 1.4-SNAPSHOT
-(nothng yet)
+- upgrade r2md to 1.0.1 to add the md.addPlot function for more versatile plotting.
 
-### Ver 1.3
+### Ver 1.3, Jan 31, 2021
 - add highlightJs code formatting
 
-### Ver 1.2
+### Ver 1.2, Jan 24, 2021
 - Remove dependency on htmlcreator
 - Add versions plugin with rules excluding beta versions
 - Add maven enforcer plugin to require minimum maven version
 
-### Ver 1.1
+### Ver 1.1, Jan 10, 2021
 Remove direct rendering to html with html.add and change to render into markdown and then to html.
 parseMdr now returns a r2md::Markdown object, use renderMdr to get either html (default) or markdown content.
 
