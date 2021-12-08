@@ -7,7 +7,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>mdr2html</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4.0</version>
   <packaging>jar</packaging>
 
   <!-- general information about your package -->
@@ -69,7 +69,7 @@
     <dependency>
       <groupId>se.alipsa</groupId>
       <artifactId>r2md</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.1</version>
     </dependency>
 
     <!-- the hamcrest package is only required if you use it for unit tests -->

@@ -20,7 +20,7 @@ To use it, add the following dependency to your pom.xml
 <dependency>
     <groupId>se.alipsa</groupId>
     <artifactId>mdr2html</artifactId>
-    <version>1.3</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -133,8 +133,9 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-### Ver 1.4-SNAPSHOT
+### Ver 1.4.0, Dec 8, 2021
 - upgrade r2md to 1.0.1 to add the md.addPlot function for more versatile plotting.
+- switch to 3 position version scheme so bumping version to the 1.4.x range
 
 ### Ver 1.3, Jan 31, 2021
 - add highlightJs code formatting
