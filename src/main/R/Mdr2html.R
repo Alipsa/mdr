@@ -111,12 +111,17 @@ parseLines <- function(lines) {
   md
 }
 
-renderMdr <- function(text=NULL, file=NULL, outputType="html") {
+renderMdr <- function(text=NULL, file=NULL, outputType="html", filename=NA) {
   md <- parseMdr(text, file)
   if (outputType == "html") {
     return(md.renderHtml(md$getContent()))
   } else if (outputType == "markdown") {
     return(md$getContent())
+  } else if (outputType == "pdf") {
+    if (is.na(filename)) {
+      stop("filename must be specified when rendering as pdf")
+    }
+    md.renderPdf(md$getContent(), filename)
   } else {
     stop(paste("Unknown output type: ", outputType))
   }

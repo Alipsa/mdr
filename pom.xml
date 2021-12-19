@@ -6,15 +6,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>se.alipsa</groupId>
-  <artifactId>mdr2html</artifactId>
-  <version>1.4.1-SNAPSHOT</version>
+  <artifactId>mdr</artifactId>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <!-- general information about your package -->
-  <name>mdr2html</name>
-  <description>This is a Renjin extension (package) that converts mdr files (markdown with support for R code) into html.
+  <name>mdr</name>
+  <description>This is a Renjin extension (package) that converts mdr files (markdown with support for R code) into markdown,
+    html, or pdf.
   It is similar to rmd files with the difference that there is no knitting. The R syntax snippets should return markdown code,
-    i.e. no "magic" conversions. This gives you better control of the output. The mdr file is converted to a html file.
+    i.e. no "magic" conversions. This gives you better control of the output.
   </description>
   <url>https://github.com/perNyfelt/mdr2html</url>
   <licenses>
@@ -69,7 +70,7 @@
     <dependency>
       <groupId>se.alipsa</groupId>
       <artifactId>r2md</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3-SNAPSHOT</version>
     </dependency>
 
     <dependency>

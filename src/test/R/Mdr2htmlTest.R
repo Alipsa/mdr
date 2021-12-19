@@ -1,5 +1,5 @@
 library('hamcrest')
-library('se.alipsa:mdr2html')
+library('se.alipsa:mdr')
 
 
 str.beginsWith <- function(expected) {

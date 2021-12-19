@@ -1,5 +1,5 @@
-# mdr2html
-A [Renjin](https://github.com/bedatadriven/renjin) package (extension) to render mdr files as html
+# mdr
+A [Renjin](https://github.com/bedatadriven/renjin) package (extension) to render mdr files as markdown, html, or pdf
 
 The *mdr* file format is somewhat similar to *rmd* (r markdown) in the sense that it enables enhancing markdown with r code to support
 [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research_method); but
@@ -7,20 +7,19 @@ where rmd relies on knitr and "magic rules" for what and especially how to rende
 to generate markdown text from r code on you - and using the [r2md](https://github.com/perNyfelt/r2md) package
 this becomes quite a pleasant experience giving you lots of control and power.
 
-The mdr2html package is essentially a package (Renjin extension) that processes mdr text or files and produces html. 
+The mdr package is essentially a package (Renjin extension) that processes mdr text or files and produces html. 
 This is used in the [Munin](https://github.com/perNyfelt/munin) reports server to support mdr files as one of its supported report formats.
 
 Use the method `parseMdr()` to parse a mdr character vector (string), a mdr file, or a list of mdr lines into a r2md::Markdown object.
-Typically, you will use the `renderMdr()` to parse and render the mdr content into html (or markdown by adding the outputType parameter, e.g. `renderMdr(mdrFile, outputType="markdown"`).
-
-
+Typically, you will use the `renderMdr()` to parse and render the mdr content into html (or markdown by adding the outputType parameter, 
+e.g. `renderMdr(mdrFile, outputType="markdown"`). Valid outputTypes are `html` (default), `markdown`, and `pdf`.
 
 To use it, add the following dependency to your pom.xml
 ```xml
 <dependency>
     <groupId>se.alipsa</groupId>
-    <artifactId>mdr2html</artifactId>
-    <version>1.4.0</version>
+    <artifactId>mdr</artifactId>
+    <version>1.5.0</version>
 </dependency>
 ```
 
@@ -133,7 +132,10 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-### Ver 1.4.1
+### Ver 1.5.0
+- upgrade r2md to 1.0.2 to add support for `htest` classes
+- rename package to mdr
+- add support for pdf output
 
 ### Ver 1.4.0, Dec 8, 2021
 - upgrade r2md to 1.0.1 to add the md.addPlot function for more versatile plotting.
