@@ -71,8 +71,8 @@ How about that?
   html <- renderMdr(rmd)
   cat(html, file=paste0(getwd(),"/codeBlock.html"))
   assertThat(html, equalTo(
-"<h1>Summary</h1>
-<table>
+'<h1>Summary</h1>
+<table class="table">
 <thead>
 <tr><th>Var1</th><th>Freq</th></tr>
 </thead>
@@ -85,7 +85,7 @@ How about that?
 <tr><td>Max.</td><td>22.9</td></tr>
 </tbody>\n</table>
 <p>How about that?</p>
-"))
+'))
 }
 
 test.inline.mixed <- function() {
@@ -155,13 +155,13 @@ md.content()
   html <- renderMdr(rmd)
   cat(html, file=paste0(getwd(),"/test.echo.html"))
   assertThat(html, equalTo(
-    "<h1>Summary</h1>
+    '<h1>Summary</h1>
 <pre><code class=\"language-r\">md.new(summary(mtcars$qsec))
 
 # Return the markdown
 md.content()
 </code></pre>
-<table>
+<table class="table">
 <thead>
 <tr><th>Var1</th><th>Freq</th></tr>
 </thead>
@@ -174,7 +174,7 @@ md.content()
 <tr><td>Max.</td><td>22.9</td></tr>
 </tbody>
 </table>
-"))
+'))
 }
 
 test.eval <- function() {
