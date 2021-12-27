@@ -133,7 +133,7 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 # Version History
 
 ### Ver 1.5.0, Dec 27, 2021
-- upgrade r2md to 1.0.2 to add support for `htest` classes
+- upgrade r2md to 1.0.3 to add support for `htest` classes
 - rename package to mdr
 - add support for pdf output
 
