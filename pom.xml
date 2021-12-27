@@ -7,7 +7,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>mdr</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.0</version>
   <packaging>jar</packaging>
 
   <!-- general information about your package -->
@@ -70,7 +70,7 @@
     <dependency>
       <groupId>se.alipsa</groupId>
       <artifactId>r2md</artifactId>
-      <version>1.0.3-SNAPSHOT</version>
+      <version>1.0.3</version>
     </dependency>
 
     <dependency>
@@ -121,7 +121,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0-M3</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>enforce-releases-maven-java</id>
@@ -243,7 +243,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.9.1</version>
+        <version>3.10.0</version>
         <configuration>
           <generateReports>false</generateReports>
         </configuration>
