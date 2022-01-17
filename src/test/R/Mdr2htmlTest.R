@@ -89,7 +89,7 @@ How about that?
 }
 
 test.codeBlockInitialize <- function() {
-  rmd <- '# Summary
+  rmd <- '# codeBlockInitialize
 ```{r}
 md.add("# Hello")
 ```
@@ -100,7 +100,7 @@ md.add("## Hello again")
 '
   html <- renderMdr(rmd)
   cat(html, file=paste0(getwd(),"/codeBlockInitialize.html"))
-  assertThat(html, equalTo("<h1>Summary</h1>
+  assertThat(html, equalTo("<h1>codeBlockInitialize</h1>
 <h1>Hello</h1>
 <p>Some text</p>
 <h2>Hello again</h2>
@@ -108,7 +108,7 @@ md.add("## Hello again")
 }
 
 test.codeBlockNoInitialize <- function() {
-  rmd <- '# Summary
+  rmd <- '# codeBlockNoInitialize
 ```{r}
 md.add("# Hello")
 ```
@@ -119,7 +119,7 @@ md.add("## Hello again")
 '
   html <- renderMdr(rmd)
   cat(html, file=paste0(getwd(),"/codeBlockInitialize.html"))
-  assertThat(html, equalTo("<h1>Summary</h1>
+  assertThat(html, equalTo("<h1>codeBlockNoInitialize</h1>
 <h1>Hello</h1>
 <p>Some text</p>
 <h1>Hello</h1>

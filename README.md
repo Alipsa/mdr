@@ -19,7 +19,7 @@ To use it, add the following dependency to your pom.xml
 <dependency>
     <groupId>se.alipsa</groupId>
     <artifactId>mdr</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
 </dependency>
 ```
 
@@ -59,7 +59,6 @@ assumed to be the markdown to render into html. So if you do:
 ````
 # Summary
 ```{r}
-md.clear()
 md.add(mtcars, attr=list(class="table")
 md.content()
 "How about that?"
@@ -68,13 +67,17 @@ md.content()
 
 ...none of the markdown code for mtcars will be run, the Markdown content that *will* be added is `"How about that?"`.
 However, the code is still executed and since the session for subsequent code blocks is the same, md.content() will
-still contain the mtcars data.frame (unless you do md.clear() or md.new() in you next codeblock - then it will be truly lost).
+still contain the mtcars data.frame if you set the subsequent code block option `initialize=FALSE` and not start that 
+subsequent code block with md.clear() or md.new() - then it will be truly lost.
 
 So to summarise the key [r2md](https://github.com/perNyfelt/r2md) methods:
-- md.new(): begin a new markdown text
-- md.add(): append to the existing markdown text or start a new one if there was none before
-- md.addPlot(): append a series of plot commands 
+- md.new(x): begin a new markdown text
+- md.add(x): append to the existing markdown text or start a new one if there was none before. The content can be text,
+a data.frame or matrix, a t-test etc.
+- md.plot({x}): append a series of plot commands 
 - md.clear(): removes the content of an existing markdown text or creates a new one if none existed before
+
+where x is the content to add
 
 ## Configuration
 The following code block options are supported:
@@ -82,6 +85,7 @@ The following code block options are supported:
 - **echo**: Output the code before the result is outputted, defaults to FALSE 
 - **eval**: Whether to run the code or not, defaults to TRUE
 - **include**: Whether the results of the evaluation should be outputted or not, defaults to TRUE
+- **initialize**: Whether a code block should "start fresh" i.e. with md.clear() automatically or not, defaults to TRUE
 
 Example:
 ````
@@ -99,9 +103,6 @@ This results in
 <pre><code>
 ```{r echo=TRUE}
 md.add(summary(mtcars$qsec))
-
-# Return the markdown, technically md.add() and md.new() does that as well so we could have skipped the next line
-md.content()
 ```
 </code></pre>
 <table>
@@ -124,7 +125,7 @@ For multiple option, just separate them with comma, e.g:
 \`\`\`{r echo=TRUE, include=FALSE}
 
 Note that if you set eval to FALSE, the 'include' parameter is ignored. 
-Setting include to TRUE makes no sense and will just be ignored as it has no meaning.
+Setting include to TRUE makes no sense in that case and will just be ignored as it has no meaning.
 
 [Here is an example](https://github.com/perNyfelt/mdr2html/blob/main/src/test/resources/research.mdr) of a mdr report.
 
@@ -133,6 +134,8 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 # Version History
 
 ### Ver 1.5.1
+- Change default behavior of code blocks to default to do md.clear() in the beginning unless the `initialize` option
+is set to FALSE (i.e. the old behavior).
 
 ### Ver 1.5.0, Dec 27, 2021
 - upgrade r2md to 1.0.3 to add support for `htest` classes

@@ -46,18 +46,20 @@ parseLines <- function(lines) {
         rCodeBlockLine <- line
         opt <- ""
         if (grepl("=", rCodeBlockLine, fixed = TRUE)) {
-          optionsStart <- gregexpr('r ', rCodeBlockLine)[[1]] +1
-          optionEnd <- gregexpr('}', rCodeBlockLine)[[1]] -1
+          optionsStart <- gregexpr('r ', rCodeBlockLine)[[1]] + 1
+          optionEnd <- gregexpr('}', rCodeBlockLine)[[1]] - 1
 
           opt <- substr(rCodeBlockLine, optionsStart, optionEnd)
         }
         codeBlockOptions <- eval(parse(text = paste("codeblockArgs(", opt, ")")))
+        if (toBoolean(codeBlockOptions$initialize, TRUE)) {
+          # The writer of the mdr doc uses the public api (md.add etc) which exxutes in a separate env
+          # We keep the actual markdown in the md object, hence it is safe to do md.clear() to restart but not md$clear()
+          md.clear()
+        }
       }
 
       if (rCodeBlock) {
-        if (toBoolean(codeBlockOptions$initialize, TRUE)) {      
-          md.new()
-        }
         passedCodeBlockStart <- !grepl("```{r", line, fixed = TRUE)
         if (passedCodeBlockStart && grepl("```", line, fixed = TRUE)) {         
           rCodeBlock <- FALSE
@@ -76,7 +78,7 @@ parseLines <- function(lines) {
             }
           }
           rCode <- ""
-        } else if (passedCodeBlockStart){
+        } else if (passedCodeBlockStart) {
           rCode <- paste(rCode, line, sep="\n")
         }
       } else {
