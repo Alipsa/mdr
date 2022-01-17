@@ -88,6 +88,45 @@ How about that?
 '))
 }
 
+test.codeBlockInitialize <- function() {
+  rmd <- '# Summary
+```{r}
+md.add("# Hello")
+```
+Some text
+```{r}
+md.add("## Hello again")
+```
+'
+  html <- renderMdr(rmd)
+  cat(html, file=paste0(getwd(),"/codeBlockInitialize.html"))
+  assertThat(html, equalTo("<h1>Summary</h1>
+<h1>Hello</h1>
+<p>Some text</p>
+<h2>Hello again</h2>
+"))
+}
+
+test.codeBlockNoInitialize <- function() {
+  rmd <- '# Summary
+```{r}
+md.add("# Hello")
+```
+Some text
+```{r initialize=FALSE}
+md.add("## Hello again")
+```
+'
+  html <- renderMdr(rmd)
+  cat(html, file=paste0(getwd(),"/codeBlockInitialize.html"))
+  assertThat(html, equalTo("<h1>Summary</h1>
+<h1>Hello</h1>
+<p>Some text</p>
+<h1>Hello</h1>
+<h2>Hello again</h2>
+"))
+}
+
 test.inline.mixed <- function() {
   rmd <- "
 ```{r}

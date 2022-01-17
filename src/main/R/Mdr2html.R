@@ -55,8 +55,11 @@ parseLines <- function(lines) {
       }
 
       if (rCodeBlock) {
+        if (toBoolean(codeBlockOptions$initialize, TRUE)) {      
+          md.new()
+        }
         passedCodeBlockStart <- !grepl("```{r", line, fixed = TRUE)
-        if (passedCodeBlockStart && grepl("```", line, fixed = TRUE)) {
+        if (passedCodeBlockStart && grepl("```", line, fixed = TRUE)) {         
           rCodeBlock <- FALSE
           if (toBoolean(codeBlockOptions$echo)) {
             if (endsWith(rCode, "\n")) {
