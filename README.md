@@ -133,7 +133,9 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-### Ver 1.5.1
+### Ver 1.5.2
+
+### Ver 1.5.1, Jan 17, 2022
 - Change default behavior of code blocks to default to do md.clear() in the beginning unless the `initialize` option
 is set to FALSE (i.e. the old behavior).
 
