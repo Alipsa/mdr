@@ -133,7 +133,9 @@ See the [tests](https://github.com/perNyfelt/mdr2html/blob/main/src/test/R/Mdr2h
 
 # Version History
 
-### Ver 1.5.2
+### Ver 1.5.3
+
+### Ver 1.5.2, Aug 16, 2022
 - upgrade maven plugins
 - upgrade to r2md 1.0.4
 - require java 11
